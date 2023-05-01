@@ -9,7 +9,7 @@ module.exports = function(app, passport, db) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('mood-post').find().toArray((err, result) => {
+        db.collection('chat-messages').find().toArray((err, result) => {
           if (err) return console.log(err)
           res.render('profile.ejs', {
             user : req.user,
@@ -29,15 +29,15 @@ module.exports = function(app, passport, db) {
 // message board routes ===============================================================
 
     app.post('/mood-post', (req, res) => {
-      db.collection('mood-post').save({mood: req.body.mood, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+      db.collection('chat-messages').save({mood: req.body.mood, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
       })
     })
 
-    app.put('/mood-post', (req, res) => {
-      db.collection('mood-post')
+    app.put('/chat-post', (req, res) => {
+      db.collection('chat-messages')
       .findOneAndUpdate({mood: req.body.mood, msg: req.body.msg}, {
         $set: {
           thumbUp:req.body.thumbUp + 1
@@ -52,7 +52,7 @@ module.exports = function(app, passport, db) {
     })
 
     app.put('/thumbDown', (req, res) => {
-      db.collection('mood-post')
+      db.collection('chat-messages')
       .findOneAndUpdate({mood: req.body.mood, msg: req.body.msg}, {
         $set: {
           thumbUp:req.body.thumbUp - 1
@@ -66,8 +66,8 @@ module.exports = function(app, passport, db) {
       })
     })
 
-    app.delete('/mood-delete', (req, res) => {
-      db.collection('mood-post').findOneAndDelete({mood: req.body.mood, msg: req.body.msg}, (err, result) => {
+    app.delete('/message-delete', (req, res) => {
+      db.collection('chat-messages').findOneAndDelete({mood: req.body.mood, msg: req.body.msg}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Message deleted!')
       })

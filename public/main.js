@@ -4,14 +4,14 @@ var trash = document.getElementsByClassName("fa-trash");
 
 Array.from(thumbUp).forEach(function(element) {
       element.addEventListener('click', function(){
-        const mood = this.parentNode.parentNode.childNodes[1].innerText
+        const chatter = this.parentNode.parentNode.childNodes[1].innerText
         const msg = this.parentNode.parentNode.childNodes[3].innerText
         const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText)
-        fetch('mood-post', {
+        fetch('chat', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-            'mood': mood,
+            'chatter': chatter,
             'msg': msg,
             'thumbUp':thumbUp
           })
@@ -28,14 +28,14 @@ Array.from(thumbUp).forEach(function(element) {
 
 Array.from(thumbDown).forEach(function(element) {
   element.addEventListener('click', function(){
-    const mood = this.parentNode.parentNode.childNodes[1].innerText
+    const chatter = this.parentNode.parentNode.childNodes[1].innerText
     const msg = this.parentNode.parentNode.childNodes[3].innerText
     const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText)
     fetch('thumbDown', {
       method: 'put',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        'mood': mood,
+        'chatter': chatter,
         'msg': msg,
         'thumbUp':thumbUp
       })
@@ -54,13 +54,13 @@ Array.from(trash).forEach(function(element) {
       element.addEventListener('click', function(){
         const mood = this.parentNode.parentNode.childNodes[1].innerText
         const msg = this.parentNode.parentNode.childNodes[3].innerText
-        fetch('mood-delete', {
+        fetch('message-delete', {
           method: 'delete',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            'mood': mood,
+            'chatter': chatter,
             'msg': msg
           })
         }).then(function (response) {
