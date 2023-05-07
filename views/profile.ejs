@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chat.css">
 </head>
 <body>
 <div class="container">
@@ -18,15 +18,14 @@
     <div class="row">
 
         <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="well">
                 <h3><span class="fa fa-user"></span> Local</h3>
 
                 <% if (user.local.email) { %>
                     <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
+                        <strong>Username</strong>: <%= user.local.email %><br>
+                        <strong>Logged On</strong>
                     </p>
 
                     <a href="/unlink/local" class="btn btn-default">Unlink</a>
@@ -36,31 +35,34 @@
 
             </div>
         </div>
-        <div class="col-sm-6">
-          <h3>Messages</h3>
-          <ul class="messages card-body">
-          <% for(var i=0; i<messages.length; i++) {%>
-            <li class="message">
-              <span><%= messages[i].mood %></span>
-              <span><%= messages[i].msg %></span>
-              <span><%= messages[i].thumbUp %></span>
-              <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
-              <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
-              <span><i class="fa fa-trash" aria-hidden="true"></i></span>
-            </li>
-          <% } %>
-          </ul>
+        <div class="col-sm-8 chat-box">
 
-          <h2>Add a message</h2>
-        <% if (user.local.email) { %>
+        <div id="chat-message-div">
+
+          <% for(var i=0; i<messages.length; i++) {%>
+            <% if (user.local.email === messages[i].user) { %>
+              <div class="current_user message">
+                <p>You</p>
+                <p><%= messages[i].msg %></p>
+              </div>
+              <%} else { %>
+                <div class="other_user message">
+                  <p>Different User</p>
+                  <p><%= messages[i].msg %></p>
+                </div>
+              <% } %>
+
+          <% } %>
+
+        </div>
+
+        <div id="post-div">
           <form action="/chat-post" method="POST">
-            <input type="text" placeholder="How you feeling" name="mood">
             <input type="text" placeholder="message" name="msg">
+            <input type="text" class="hidden" name="user" value="<%= user.local.email %>">
             <button type="submit">Submit</button>
           </form>
         </div>
-        <% } %>
-
 </div>
 
 <script src="main.js"></script>

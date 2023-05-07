@@ -26,36 +26,21 @@ module.exports = function(app, passport, db) {
         res.redirect('/');
     });
 
-// message board routes ===============================================================
+// chat routes ===============================================================
 
-    app.post('/mood-post', (req, res) => {
-      db.collection('chat-messages').save({mood: req.body.mood, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+    app.post('/chat-post', (req, res) => {
+      db.collection('chat-messages').save({user: req.body.user, msg: req.body.msg}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
       })
     })
 
-    app.put('/chat-post', (req, res) => {
+    app.put('/chat-react', (req, res) => {
       db.collection('chat-messages')
       .findOneAndUpdate({mood: req.body.mood, msg: req.body.msg}, {
         $set: {
-          thumbUp:req.body.thumbUp + 1
-        }
-      }, {
-        sort: {_id: -1},
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
-      })
-    })
-
-    app.put('/thumbDown', (req, res) => {
-      db.collection('chat-messages')
-      .findOneAndUpdate({mood: req.body.mood, msg: req.body.msg}, {
-        $set: {
-          thumbUp:req.body.thumbUp - 1
+          
         }
       }, {
         sort: {_id: -1},
@@ -80,14 +65,14 @@ module.exports = function(app, passport, db) {
     // locally --------------------------------
         // LOGIN ===============================
         // show the login form
-        app.get('/login', function(req, res) {
-            res.render('login.ejs', { message: req.flash('loginMessage') });
+        app.get('/index', function(req, res) {
+            res.render('index.ejs', { message: req.flash('loginMessage') });
         });
 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {
             successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureRedirect : '/', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
 

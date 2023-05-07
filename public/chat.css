@@ -1,0 +1,41 @@
+body{
+    display: flex;
+    justify-content: center;
+}
+.container{
+    margin: 0;
+    width: 100%;
+  }
+.hidden{
+    display: none;
+}
+.chat-box{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    background: darkgray;
+    height: 500px;
+    overflow: auto;
+}
+#post-div{
+    height: 10%;
+}
+#chat-message-div{
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+.other_user{
+    width: 50%;
+    margin: 1.5rem;
+    border: 1px solid transparent;
+    background: rgb(75, 231, 75);
+    border-radius: 5px;
+}
+.current_user{
+    width: 50%;
+    margin: 1.5rem;
+    border: 1px solid transparent;
+    background: rgb(69, 183, 255);
+    border-radius: 5px;
+}
